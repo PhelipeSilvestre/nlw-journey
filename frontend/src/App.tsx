@@ -4,11 +4,13 @@ import {
   ArrowRight,
   UserRoundPlus,
   Settings2,
+  X,
 } from "lucide-react";
 import { useState } from "react";
 
 export function App() {
   const [isGuestInputOpen, setIsGuestInputOpen] = useState(false);
+  const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
 
   function openGuestInput() {
     setIsGuestInputOpen(true);
@@ -16,6 +18,14 @@ export function App() {
 
   function closeGuestInput() {
     setIsGuestInputOpen(false);
+  }
+
+  function openGuestModal() {
+    setIsGuestModalOpen(true);
+  }
+
+  function closeGuestModal() {
+    setIsGuestModalOpen(false);
   }
 
   return (
@@ -54,7 +64,10 @@ export function App() {
             <div className="w-px h-6 bg-zinc-800 "></div>
 
             {isGuestInputOpen ? (
-              <button onClick={closeGuestInput} className="bg-zinc-800 text-zinc-200 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-zinc-700">
+              <button
+                onClick={closeGuestInput}
+                className="bg-zinc-800 text-zinc-200 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-zinc-700"
+              >
                 Alterar local/data
                 <Settings2 className="size-5" />
               </button>
@@ -71,14 +84,16 @@ export function App() {
 
           {isGuestInputOpen && (
             <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3 ">
-              <div className="flex items-center gap-2 flex-1">
+              <button
+                type="button"
+                onClick={openGuestModal}
+                className="flex items-center gap-2 flex-1"
+              >
                 <UserRoundPlus className="size-5 text-zinc-400" />
-                <input
-                  type="text"
-                  placeholder="Quem estará na viagem?"
-                  className="bg-transparent text-lg placeholder-zinc-400 outline-none"
-                />
-              </div>
+                <span className="text-lg text-zinc-400 flex-1 text-left">
+                  Quem estará na viagem?
+                </span>
+              </button>
 
               <div className="w-px h-6 bg-zinc-800 "></div>
 
@@ -104,6 +119,26 @@ export function App() {
           .
         </p>
       </div>
+
+      {isGuestModalOpen && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+          <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Selecionar Convidados</h2>
+              <button type="button" onClick={closeGuestModal}>
+                <X className="size-5 text-zinc-400" />
+              </button>
+            </div>
+            <p className="text-sm text-zinc-400 mt-4">
+              Os convidados irão receber um e-mail para confirmar a participação
+              da viagem.
+            </p>
+            <div className="flex flex-wrap">
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
